@@ -1,71 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Evergine.Bindings.MeshOptimizer
+namespace Evergine.Bindings.KTX
 {
-	/// <summary>
-	/// 
-	/// @
-	/// ~English
-	/// 
-	/// 
-	/// </summary>
-	[StructLayout(LayoutKind.Sequential)]
-	public unsafe struct ktxStream
-	{
-
-		/// <summary>
-		/// pointer to function for reading bytes. 
-		/// </summary>
-		public  read;
-
-		/// <summary>
-		/// pointer to function for skipping bytes. 
-		/// </summary>
-		public  skip;
-
-		/// <summary>
-		/// pointer to function for writing bytes. 
-		/// </summary>
-		public  write;
-
-		/// <summary>
-		/// pointer to function for getting current position in stream. 
-		/// </summary>
-		public  getpos;
-
-		/// <summary>
-		/// pointer to function for setting current position in stream. 
-		/// </summary>
-		public  setpos;
-
-		/// <summary>
-		/// pointer to function for querying size. 
-		/// </summary>
-		public  getsize;
-
-		/// <summary>
-		/// destruct the stream. 
-		/// </summary>
-		public  destruct;
-		public streamType type;
-
-		/// <summary>
-		/// pointer to the stream data. 
-		/// </summary>
-		public  data;
-
-		/// <summary>
-		/// used by FileStream for stdin. 
-		/// </summary>
-		public ulong readpos;
-
-		/// <summary>
-		/// Close FILE* or dispose of memory on destruct. 
-		/// </summary>
-		public  closeOnDestruct;
-	}
-
 	/// <summary>
 	/// 
 	/// @
@@ -105,53 +42,26 @@ namespace Evergine.Bindings.MeshOptimizer
 	public unsafe struct ktxTexture
 	{
 		public class_id classId;
-		public ktxTexture_vtbl* vtbl;
-		public ktxTexture_vvtbl* vvtbl;
-		public ktxTexture_protected* _protected;
-		public  isArray;
-		public  isCubemap;
-		public  isCompressed;
-		public  generateMipmaps;
-		public  baseWidth;
-		public  baseHeight;
-		public  baseDepth;
-		public  numDimensions;
-		public  numLevels;
-		public  numLayers;
-		public  numFaces;
+		public IntPtr vtbl;
+		public IntPtr vvtbl;
+		public IntPtr _protected;
+		public byte isArray;
+		public byte isCubemap;
+		public byte isCompressed;
+		public byte generateMipmaps;
+		public UInt32 baseWidth;
+		public UInt32 baseHeight;
+		public UInt32 baseDepth;
+		public UInt32 numDimensions;
+		public UInt32 numLevels;
+		public UInt32 numLayers;
+		public UInt32 numFaces;
 		public ktxOrientation orientation;
-		public  kvDataHead;
-		public  kvDataLen;
-		public * kvData;
-		public  dataSize;
-		public * pData;
-	}
-
-	/// <summary>
-	/// 
-	/// 
-	/// @
-	/// ~English
-	/// 
-	/// </summary>
-	[StructLayout(LayoutKind.Sequential)]
-	public unsafe struct ktxTexture_vtbl
-	{
-		public  Destroy;
-		public  GetImageOffset;
-		public  GetDataSizeUncompressed;
-		public  GetImageSize;
-		public  GetLevelSize;
-		public  IterateLevels;
-		public  IterateLoadLevelFaces;
-		public  NeedsTranscoding;
-		public  LoadImageData;
-		public  SetImageFromMemory;
-		public  SetImageFromStdioStream;
-		public  WriteToStdioStream;
-		public  WriteToNamedFile;
-		public  WriteToMemory;
-		public  WriteToStream;
+		public ktxHashList kvDataHead;
+		public UInt32 kvDataLen;
+		public byte* kvData;
+		public UIntPtr dataSize;
+		public byte* pData;
 	}
 
 	/// <summary>
@@ -167,53 +77,53 @@ namespace Evergine.Bindings.MeshOptimizer
 	public unsafe struct ktxTexture1
 	{
 		public class_id classId;
-		public ktxTexture_vtbl* vtbl;
-		public ktxTexture_vvtbl* vvtbl;
-		public ktxTexture_protected* _protected;
-		public  isArray;
-		public  isCubemap;
-		public  isCompressed;
-		public  generateMipmaps;
-		public  baseWidth;
-		public  baseHeight;
-		public  baseDepth;
-		public  numDimensions;
-		public  numLevels;
-		public  numLayers;
-		public  numFaces;
+		public IntPtr vtbl;
+		public IntPtr vvtbl;
+		public IntPtr _protected;
+		public byte isArray;
+		public byte isCubemap;
+		public byte isCompressed;
+		public byte generateMipmaps;
+		public UInt32 baseWidth;
+		public UInt32 baseHeight;
+		public UInt32 baseDepth;
+		public UInt32 numDimensions;
+		public UInt32 numLevels;
+		public UInt32 numLayers;
+		public UInt32 numFaces;
 		public ktxOrientation orientation;
-		public  kvDataHead;
-		public  kvDataLen;
-		public * kvData;
-		public  dataSize;
-		public * pData;
+		public ktxHashList kvDataHead;
+		public UInt32 kvDataLen;
+		public byte* kvData;
+		public UIntPtr dataSize;
+		public byte* pData;
 
 		/// <summary>
 		/// Format of the texture data, e.g., GL_RGB. 
 		/// </summary>
-		public  glFormat;
+		public UInt32 glFormat;
 
 		/// <summary>
 		/// Internal format of the texture data,
 		/// e.g., GL_RGB8. 
 		/// </summary>
-		public  glInternalformat;
+		public UInt32 glInternalformat;
 
 		/// <summary>
 		/// Base format of the texture data,
 		/// e.g., GL_RGB. 
 		/// </summary>
-		public  glBaseInternalformat;
+		public UInt32 glBaseInternalformat;
 
 		/// <summary>
 		/// Type of the texture data, e.g, GL_UNSIGNED_BYTE.
 		/// </summary>
-		public  glType;
+		public UInt32 glType;
 
 		/// <summary>
 		/// Private data. 
 		/// </summary>
-		public ktxTexture1_private* _private;
+		public IntPtr _private;
 	}
 
 	/// <summary>
@@ -229,38 +139,38 @@ namespace Evergine.Bindings.MeshOptimizer
 	public unsafe struct ktxTexture2
 	{
 		public class_id classId;
-		public ktxTexture_vtbl* vtbl;
-		public ktxTexture_vvtbl* vvtbl;
-		public ktxTexture_protected* _protected;
-		public  isArray;
-		public  isCubemap;
-		public  isCompressed;
-		public  generateMipmaps;
-		public  baseWidth;
-		public  baseHeight;
-		public  baseDepth;
-		public  numDimensions;
-		public  numLevels;
-		public  numLayers;
-		public  numFaces;
+		public IntPtr vtbl;
+		public IntPtr vvtbl;
+		public IntPtr _protected;
+		public byte isArray;
+		public byte isCubemap;
+		public byte isCompressed;
+		public byte generateMipmaps;
+		public UInt32 baseWidth;
+		public UInt32 baseHeight;
+		public UInt32 baseDepth;
+		public UInt32 numDimensions;
+		public UInt32 numLevels;
+		public UInt32 numLayers;
+		public UInt32 numFaces;
 		public ktxOrientation orientation;
-		public  kvDataHead;
-		public  kvDataLen;
-		public * kvData;
-		public  dataSize;
-		public * pData;
-		public  vkFormat;
-		public * pDfd;
+		public ktxHashList kvDataHead;
+		public UInt32 kvDataLen;
+		public byte* kvData;
+		public UIntPtr dataSize;
+		public byte* pData;
+		public UInt32 vkFormat;
+		public UInt32* pDfd;
 		public ktxSupercmpScheme supercompressionScheme;
-		public  isVideo;
-		public  duration;
-		public  timescale;
-		public  loopcount;
+		public byte isVideo;
+		public UInt32 duration;
+		public UInt32 timescale;
+		public UInt32 loopcount;
 
 		/// <summary>
 		/// Private data. 
 		/// </summary>
-		public ktxTexture2_private* _private;
+		public IntPtr _private;
 	}
 
 	/// <summary>
@@ -280,72 +190,72 @@ namespace Evergine.Bindings.MeshOptimizer
 		/// GL_RGB8. Ignored when creating a
 		/// ktxTexture2. 
 		/// </summary>
-		public  glInternalformat;
+		public UInt32 glInternalformat;
 
 		/// <summary>
 		/// VkFormat for texture. Ignored when creating a
 		/// ktxTexture1. 
 		/// </summary>
-		public  vkFormat;
+		public UInt32 vkFormat;
 
 		/// <summary>
 		/// Pointer to DFD. Used only when creating a
 		/// ktxTexture2 and only if vkFormat is
 		/// VK_FORMAT_UNDEFINED. 
 		/// </summary>
-		public * pDfd;
+		public UInt32* pDfd;
 
 		/// <summary>
 		/// Width of the base level of the texture. 
 		/// </summary>
-		public  baseWidth;
+		public UInt32 baseWidth;
 
 		/// <summary>
 		/// Height of the base level of the texture. 
 		/// </summary>
-		public  baseHeight;
+		public UInt32 baseHeight;
 
 		/// <summary>
 		/// Depth of the base level of the texture. 
 		/// </summary>
-		public  baseDepth;
+		public UInt32 baseDepth;
 
 		/// <summary>
 		/// Number of dimensions in the texture, 1, 2
 		/// or 3. 
 		/// </summary>
-		public  numDimensions;
+		public UInt32 numDimensions;
 
 		/// <summary>
 		/// Number of mip levels in the texture. Should be
 		/// 1 if 
 		/// is KTX_TRUE; 
 		/// </summary>
-		public  numLevels;
+		public UInt32 numLevels;
 
 		/// <summary>
 		/// Number of array layers in the texture. 
 		/// </summary>
-		public  numLayers;
+		public UInt32 numLayers;
 
 		/// <summary>
 		/// Number of faces: 6 for cube maps, 1 otherwise. 
 		/// </summary>
-		public  numFaces;
+		public UInt32 numFaces;
 
 		/// <summary>
 		/// Set to KTX_TRUE if the texture is to be an
 		/// array texture. Means OpenGL will use a
 		/// GL_TEXTURE_*_ARRAY target. 
 		/// </summary>
-		public  isArray;
+		public byte isArray;
 
 		/// <summary>
 		/// Set to KTX_TRUE if mipmaps should be
 		/// generated for the texture when loading
 		/// into a 3D API. 
 		/// </summary>
-		public  generateMipmaps;
+		public byte generateMipmaps;
 	}
 
 	/// <summary>
@@ -361,18 +271,18 @@ namespace Evergine.Bindings.MeshOptimizer
 	[StructLayout(LayoutKind.Sequential)]
 	public unsafe struct ktxAstcParams
 	{
-		public  structSize;
-		public  verbose;
-		public  threadCount;
+		public UInt32 structSize;
+		public byte verbose;
+		public UInt32 threadCount;
 
 		/// <summary>
 		/// astcenc params 
 		/// </summary>
-		public  blockDimension;
-		public  mode;
-		public  qualityLevel;
-		public  normalMap;
-		public  perceptual;
+		public UInt32 blockDimension;
+		public UInt32 mode;
+		public UInt32 qualityLevel;
+		public byte normalMap;
+		public byte perceptual;
 		public fixed byte inputSwizzle[4];
 	}
 
@@ -395,39 +305,39 @@ namespace Evergine.Bindings.MeshOptimizer
 	[StructLayout(LayoutKind.Sequential)]
 	public unsafe struct ktxBasisParams
 	{
-		public  structSize;
-		public  uastc;
-		public  verbose;
-		public  noSSE;
-		public  threadCount;
+		public UInt32 structSize;
+		public byte uastc;
+		public byte verbose;
+		public byte noSSE;
+		public UInt32 threadCount;
 
 		/// <summary>
 		/// ETC1S params 
 		/// </summary>
-		public  compressionLevel;
-		public  qualityLevel;
-		public  maxEndpoints;
+		public UInt32 compressionLevel;
+		public UInt32 qualityLevel;
+		public UInt32 maxEndpoints;
 		public float endpointRDOThreshold;
-		public  maxSelectors;
+		public UInt32 maxSelectors;
 		public float selectorRDOThreshold;
 		public fixed byte inputSwizzle[4];
-		public  normalMap;
-		public  separateRGToRGB_A;
-		public  preSwizzle;
-		public  noEndpointRDO;
-		public  noSelectorRDO;
+		public byte normalMap;
+		public byte separateRGToRGB_A;
+		public byte preSwizzle;
+		public byte noEndpointRDO;
+		public byte noSelectorRDO;
 
 		/// <summary>
 		/// UASTC params 
 		/// </summary>
-		public  uastcFlags;
-		public  uastcRDO;
+		public UInt32 uastcFlags;
+		public byte uastcRDO;
 		public float uastcRDOQualityScalar;
-		public  uastcRDODictSize;
+		public UInt32 uastcRDODictSize;
 		public float uastcRDOMaxSmoothBlockErrorScale;
 		public float uastcRDOMaxSmoothBlockStdDev;
-		public  uastcRDODontFavorSimplerModes;
-		public  uastcRDONoMultithreading;
+		public byte uastcRDODontFavorSimplerModes;
+		public byte uastcRDONoMultithreading;
 	}
 
 }

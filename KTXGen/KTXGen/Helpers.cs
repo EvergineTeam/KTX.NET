@@ -1,6 +1,7 @@
 ﻿using CppAst;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace KTXGen
 {
     public static class Helpers
     {
+        public static List<string> DelegatesList;
+
         private static readonly Dictionary<string, string> csNameMappings = new Dictionary<string, string>()
         {
             { "bool", "bool" },
@@ -23,9 +26,45 @@ namespace KTXGen
             { "int64_t", "long" },
             { "int64_t*", "long*" },
             { "char", "byte" },
-            { "size_t", "nuint" },
+            { "size_t", "uint" },
             { "intptr_t", "nint" },
             { "uintptr_t", "nuint" },
+
+            { "GLuint", "UInt32" },
+            { "GLenum", "UInt32" },
+
+            { "ktx_bool_t", "byte" },
+            { "ktx_uint8_t", "byte" },
+            { "ktx_uint16_t", "UInt16" },
+            { "ktx_uint32_t", "UInt32" },
+            { "ktx_uint64_t", "UInt64" },
+            { "ktx_int8_t", "sbyte" },
+            { "ktx_int16_t", "Int16" },
+            { "ktx_int32_t", "Int32" },
+            { "ktx_int64_t", "Int64" },
+            { "ktx_size_t", "UIntPtr" },
+            { "ktx_off_t", "IntPtr" },
+            { "ktxTextureCreateFlags", "UInt32" },
+            { "ktx_transcode_flags", "UInt32" },
+            { "ktx_pack_uastc_flags", "UInt32" },
+
+            { "ktxHashListEntry", "ktxHashListEntry" },
+            { "ktxHashList", "ktxHashList" },
+        };
+
+        public static readonly HashSet<string> privateStructs = new HashSet<string>
+        {
+            "ktxTexture1_private",
+            "ktxTexture2_private",
+            "ktxTexture_vvtbl",
+            "ktxTexture_vtbl",
+            "ktxTexture_protected",
+        };
+
+        public static readonly HashSet<string> typesBlacklist = new HashSet<string>
+        {
+            "FILE",
+            "ktxStream",
         };
 
         public static string ConvertToCSharpType(CppType type, bool isPointer = false)
@@ -42,7 +81,7 @@ namespace KTXGen
 
             if (type is CppEnum enumType)
             {
-                var enumCsName = enumType.Name;
+                var enumCsName = GetCsCleanName(enumType.Name);
                 if (isPointer)
                     return enumCsName + "*";
 
@@ -51,8 +90,7 @@ namespace KTXGen
 
             if (type is CppTypedef typedef)
             {
-                var originalName = typedef.Name;
-                csNameMappings.TryGetValue(originalName, out string typeDefCsName);
+                var typeDefCsName = GetCsCleanName(typedef.Name);
 
                 if (isPointer)
                     return typeDefCsName + "*";
@@ -62,9 +100,11 @@ namespace KTXGen
 
             if (type is CppClass @class)
             {
-                var className = @class.Name;
+                var className = GetCsCleanName(@class.Name);
                 if (isPointer)
-                    return className + "*";
+                {
+                    return privateStructs.Contains(className) ? "IntPtr" : className + "*";
+                }
 
                 return className;
             }
@@ -149,7 +189,13 @@ namespace KTXGen
                 var className = @class.Name;
 
                 if (isPointer)
+                {
+                    if (privateStructs.Contains(className))
+                    {
+                        return "IntPtr";
+                    }
                     className += "*";
+                }
 
                 return className;
             }
@@ -293,6 +339,25 @@ namespace KTXGen
             return value.Replace("UL", String.Empty);
         }
 
+
+        private static string GetCsCleanName(string name)
+        {
+            if (csNameMappings.TryGetValue(name, out string mappedName))
+            {
+                if (mappedName != name)
+                {
+                    return GetCsCleanName(mappedName);
+                }
+            }
+
+            if (DelegatesList.Contains(name))
+            {
+                return name;
+            }
+
+            return name;
+        }
+
         public static void PrintComments(StreamWriter file, CppComment comment, string tabs = "", bool newLine = false)
         {
             if (comment != null)
@@ -324,6 +389,69 @@ namespace KTXGen
                     ;
                     break;
             }
+        }
+
+        public static object ValidParamName(string name, string type, int i)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                switch (type)
+                {
+                    case "void*":
+                        return $"ptr{i}";
+                    case "uint":
+                        return $"size{i}";
+                    case "byte*":
+                        return $"bytePtr{i}";
+                    default:
+                        return null;
+                }
+            }
+            else
+            {
+                return name;
+            }
+        }
+
+        public static bool TypeUsesBlacklistedType(CppType type)
+        {
+            if (type is CppTypeWithElementType tt)
+            {
+                return TypeUsesBlacklistedType(tt.ElementType);
+            }
+            return typesBlacklist.Contains(type.FullName);
+        }
+
+        public static bool FunctionUsesBlacklistedType(CppFunction function)
+        {
+            foreach (var param in function.Parameters)
+            {
+                if (TypeUsesBlacklistedType(param.Type))
+                {
+                    return true;
+                }
+            }
+            if (TypeUsesBlacklistedType(function.ReturnType))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool FunctionTypeUsesBlacklistedType(CppFunctionType function)
+        {
+            foreach (var param in function.Parameters)
+            {
+                if (TypeUsesBlacklistedType(param.Type))
+                {
+                    return true;
+                }
+            }
+            if (TypeUsesBlacklistedType(function.ReturnType))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
