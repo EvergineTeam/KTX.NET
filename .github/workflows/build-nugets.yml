@@ -42,4 +42,5 @@ jobs:
         if: ${{ success() && github.event.inputs.publishEnabled == 'true' }}
         env:
           token: ${{secrets.EVERGINE_NUGETORG_TOKEN}}
-        run: dotnet nuget push "nupkgs/*.nupkg" --skip-duplicate --no-symbols -k "$env:token" -s https://api.nuget.org/v3/index.json
+        shell: pwsh
+        run: dotnet nuget push ./nupkgs/*.nupkg --skip-duplicate --no-symbols -k "$env:token" -s https://api.nuget.org/v3/index.json
