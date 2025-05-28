@@ -31,6 +31,13 @@ jobs:
         id: build_nugets
         run: powershell ./Generate-NuGets.ps1 -revision ${{  github.run_number  }} -outputfolder nupkgs
 
+      - name: Upload NuGet Artifact
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: KTX_NuGet
+          path: nupkgs/*.nupkg
+
       - name: Publish NuGet
         if: ${{ success() && github.event.inputs.publishEnabled == 'true' }}
         env:
