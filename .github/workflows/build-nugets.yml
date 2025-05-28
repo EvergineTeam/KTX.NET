@@ -1,12 +1,12 @@
 name: build nugets
 on:
   workflow_dispatch:
-  inputs:
-      publishEnabled:
-        description: "Publish to Nuget.org"
-        type: boolean
-        required: false
-        default: false
+    inputs:
+        publishEnabled:
+          description: "Publish to Nuget.org"
+          type: boolean
+          required: false
+          default: false
 
 jobs:
   build_and_publish:
