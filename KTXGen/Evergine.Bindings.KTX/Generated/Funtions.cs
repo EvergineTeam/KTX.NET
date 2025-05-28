@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Evergine.Bindings.KTX
 {
-	public static unsafe partial class MeshOptNative
+	public static unsafe partial class KTX
 	{
 		/// <summary>
 		/// Load pointers for the OpenGL functions needed by ktxTexture_GLUpload.
