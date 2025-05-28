@@ -43,4 +43,6 @@ jobs:
         env:
           token: ${{secrets.EVERGINE_NUGETORG_TOKEN}}
         shell: pwsh
-        run: dotnet nuget push ./nupkgs/*.nupkg --skip-duplicate --no-symbols -k "$env:token" -s https://api.nuget.org/v3/index.json
+        run: |
+          dir
+          dotnet nuget push ./nupkgs/*.nupkg --skip-duplicate --no-symbols -k "$env:token" -s https://api.nuget.org/v3/index.json
