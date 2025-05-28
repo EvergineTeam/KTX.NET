@@ -48,14 +48,12 @@ namespace KTXGen
                 file.WriteLine("using System.Runtime.InteropServices;\n");
                 file.WriteLine($"namespace Evergine.Bindings.KTX");
                 file.WriteLine("{");
-                file.WriteLine($"\tpublic static partial class MeshOptNative");
+                file.WriteLine($"\tpublic static partial class KTX");
                 file.WriteLine("\t{");
 
                 foreach (var cppMacro in compilation.Macros)
                 {
-                    if (string.IsNullOrEmpty(cppMacro.Value)
-                        || cppMacro.Name.Equals("MESHOPTIMIZER_ALLOC_CALLCONV")
-                        || cppMacro.Name.Equals("MESHOPTIMIZER_EXPERIMENTAL"))
+                    if (string.IsNullOrEmpty(cppMacro.Value))
                         continue;
 
                     string enumType = Helpers.ConvertEnumType(cppMacro.Value, out string csDataType);
@@ -215,7 +213,7 @@ namespace KTXGen
                 file.WriteLine("using System.Runtime.InteropServices;\n");
                 file.WriteLine($"namespace Evergine.Bindings.KTX");
                 file.WriteLine("{");
-                file.WriteLine($"\tpublic static unsafe partial class MeshOptNative");
+                file.WriteLine($"\tpublic static unsafe partial class KTX");
                 file.WriteLine("\t{");
 
                 foreach (var cppFunction in compilation.Functions)
