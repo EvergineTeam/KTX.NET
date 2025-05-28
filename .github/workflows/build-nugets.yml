@@ -45,4 +45,4 @@ jobs:
         shell: pwsh
         run: |
           dir nupkgs
-          dotnet nuget push ./nupkgs/**.nupkg --skip-duplicate --no-symbols -k "$env:token" -s https://api.nuget.org/v3/index.json
+          dotnet nuget push .\nupkgs\*.nupkg --skip-duplicate --no-symbols -k "$env:token" -s https://api.nuget.org/v3/index.json
