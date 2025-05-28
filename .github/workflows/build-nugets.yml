@@ -23,11 +23,9 @@ jobs:
         with:
           nuget-version: "6.x"
 
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build solution
-        run: dotnet build --configuration Release
+      - name: Generate Bindings
+        id: build_bindings
+        run: powershell ./Generate-Bindings.ps1
 
       - name: Generate NuGet packages
         id: build_nugets
