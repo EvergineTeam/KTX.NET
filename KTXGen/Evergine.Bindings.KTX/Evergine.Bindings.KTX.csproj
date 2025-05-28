@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="runtimes\win-64\native\ktx.dll" />
+    <None Remove="runtimes\win-x64\native\ktx.dll" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="runtimes\win-64\native\ktx.dll">
+    <Content Include="runtimes\win-x64\native\ktx.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

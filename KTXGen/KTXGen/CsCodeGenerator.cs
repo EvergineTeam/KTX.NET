@@ -19,9 +19,22 @@ namespace KTXGen
 
         public void Generate(CppCompilation compilation, string outputPath)
         {
-            GenerateConstants(compilation, outputPath);
+            Helpers.DelegatesList = new List<string>();
+            foreach(var typedef in compilation.Typedefs)
+            {
+                if(typedef.ElementType is CppPointerType pointerType)
+                {
+                    if (pointerType.ElementType is CppFunctionType functionType)
+                    {
+                        Helpers.DelegatesList.Add(typedef.Name);
+                    }
+                }
+            }
+
+            // GenerateConstants(compilation, outputPath);
             GenerateEnums(compilation, outputPath);
             GenerateStructs(compilation, outputPath);
+            GenerateDelegates(compilation, outputPath);
             GenerateFuntions(compilation, outputPath);
         }
 
@@ -33,7 +46,7 @@ namespace KTXGen
             {
                 file.WriteLine("using System;");
                 file.WriteLine("using System.Runtime.InteropServices;\n");
-                file.WriteLine($"namespace Evergine.Bindings.MeshOptimizer");
+                file.WriteLine($"namespace Evergine.Bindings.KTX");
                 file.WriteLine("{");
                 file.WriteLine($"\tpublic static partial class MeshOptNative");
                 file.WriteLine("\t{");
@@ -52,6 +65,15 @@ namespace KTXGen
             }
         }
 
+        private static string removeUnderscorePrefix(string name)
+        {
+            if (name.StartsWith("_"))
+            {
+                name = name.Substring(1);
+            }
+            return name;
+        }
+
         public void GenerateEnums(CppCompilation compilation, string outputPath)
         {
             Debug.WriteLine("Generating Enums...");
@@ -59,7 +81,7 @@ namespace KTXGen
             using (StreamWriter file = File.CreateText(Path.Combine(outputPath, "Enums.cs")))
             {
                 file.WriteLine("using System;\n");
-                file.WriteLine("namespace Evergine.Bindings.MeshOptimizer");
+                file.WriteLine("namespace Evergine.Bindings.KTX");
                 file.WriteLine("{");
 
                 var enums = compilation.Enums.Where(e => e.Items.Count > 0 && !e.IsAnonymous).ToList();
@@ -72,7 +94,7 @@ namespace KTXGen
                         file.WriteLine("\t[Flags]");
                     }
 
-                    file.WriteLine($"\tpublic enum {cppEnum.Name}");
+                    file.WriteLine($"\tpublic enum {removeUnderscorePrefix(cppEnum.Name)}");
                     file.WriteLine("\t{");
 
                     foreach (var member in cppEnum.Items)
@@ -88,6 +110,57 @@ namespace KTXGen
             }
         }
 
+        private void GenerateDelegates(CppCompilation compilation, string outputPath)
+        {
+            Debug.WriteLine("Generating Delegates...");
+
+            var delegates = compilation.Typedefs
+                .Where(t => t.TypeKind == CppTypeKind.Typedef
+                       && t.ElementType is CppPointerType
+                       && ((CppPointerType)t.ElementType).ElementType.TypeKind == CppTypeKind.Function)
+                .ToList();
+
+            using (StreamWriter file = File.CreateText(Path.Combine(outputPath, "Delegates.cs")))
+            {
+                file.WriteLine("using System;");
+                file.WriteLine("using System.Runtime.InteropServices;\n");
+                file.WriteLine("namespace Evergine.Bindings.KTX");
+                file.WriteLine("{");
+
+                foreach (var funcPointer in delegates)
+                {
+                    CppFunctionType pointerType = ((CppPointerType)funcPointer.ElementType).ElementType as CppFunctionType;
+                    if (Helpers.FunctionTypeUsesBlacklistedType(pointerType)) continue;
+                    Helpers.PrintComments(file, funcPointer.Comment, "\t");
+
+                    var returnType = Helpers.ConvertToCSharpType(pointerType.ReturnType);
+                    returnType = Helpers.ShowAsMarshalType(returnType, Helpers.Family.ret);
+                    file.Write($"\tpublic unsafe delegate {returnType} {funcPointer.Name}(");
+
+                    if (pointerType.Parameters.Count > 0)
+                    {
+                        file.Write("\n");
+
+                        for (int i = 0; i < pointerType.Parameters.Count; i++)
+                        {
+                            if (i > 0)
+                                file.Write(",\n");
+
+                            var parameter = pointerType.Parameters[i];
+                            var convertedType = Helpers.ConvertToCSharpType(parameter.Type);
+                            convertedType = Helpers.ShowAsMarshalType(convertedType, Helpers.Family.param);
+                            var validName = Helpers.ValidParamName(parameter.Name, convertedType, i);
+                            file.Write($"\t\t {convertedType} {validName}");
+                        }
+                    }
+
+                    file.Write(");\n\n");
+                }
+
+                file.WriteLine("}");
+            }
+        }
+
         private void GenerateStructs(CppCompilation compilation, string outputPath)
         {
             Debug.WriteLine("Generating Structs...");
@@ -96,13 +169,15 @@ namespace KTXGen
             {
                 file.WriteLine("using System;");
                 file.WriteLine("using System.Runtime.InteropServices;\n");
-                file.WriteLine("namespace Evergine.Bindings.MeshOptimizer");
+                file.WriteLine("namespace Evergine.Bindings.KTX");
                 file.WriteLine("{");
 
                 var structs = compilation.Classes.Where(c => c.ClassKind == CppClassKind.Struct && c.IsDefinition == true);
 
                 foreach (var structure in structs)
                 {
+                    if (Helpers.typesBlacklist.Contains(structure.Name) || Helpers.privateStructs.Contains(structure.Name)) continue;
+
                     Helpers.PrintComments(file, structure.Comment, "\t");
                     file.WriteLine("\t[StructLayout(LayoutKind.Sequential)]");
                     file.WriteLine($"\tpublic unsafe struct {structure.Name}");
@@ -120,7 +195,6 @@ namespace KTXGen
                         }
                         else // default case
                         {
-
                             file.WriteLine($"\t\tpublic {type} {member.Name};");
                         }
                     }
@@ -139,7 +213,7 @@ namespace KTXGen
             {
                 file.WriteLine("using System;");
                 file.WriteLine("using System.Runtime.InteropServices;\n");
-                file.WriteLine($"namespace Evergine.Bindings.MeshOptimizer");
+                file.WriteLine($"namespace Evergine.Bindings.KTX");
                 file.WriteLine("{");
                 file.WriteLine($"\tpublic static unsafe partial class MeshOptNative");
                 file.WriteLine("\t{");
@@ -148,10 +222,10 @@ namespace KTXGen
                 {
                     if ((cppFunction.Flags & CppFunctionFlags.FunctionTemplate) != CppFunctionFlags.None) continue;
                     if ((cppFunction.Flags & CppFunctionFlags.Inline) != CppFunctionFlags.None) continue;
-                    if (cppFunction.Name == "meshopt_setAllocator") continue;
+                    if (Helpers.FunctionUsesBlacklistedType(cppFunction)) continue;
 
                     Helpers.PrintComments(file, cppFunction.Comment, "\t\t");
-                    file.WriteLine($"\t\t[DllImport(\"meshoptimizer\", CallingConvention = CallingConvention.Cdecl)]");
+                    file.WriteLine($"\t\t[DllImport(\"ktx\", CallingConvention = CallingConvention.Cdecl)]");
                     string returnType = Helpers.ConvertToCSharpType(cppFunction.ReturnType);
                     returnType = Helpers.ShowAsMarshalType(returnType, Helpers.Family.ret);
                     file.Write($"\t\tpublic static extern {returnType} {cppFunction.Name}(");
@@ -162,7 +236,8 @@ namespace KTXGen
 
                         var convertedType = Helpers.ConvertToCSharpType(parameter.Type);
                         convertedType = Helpers.ShowAsMarshalType(convertedType, Helpers.Family.param);
-                        file.Write($"{convertedType} {parameter.Name}");
+                        string paramName = parameter.Name == "params" ? "@params" : parameter.Name;
+                        file.Write($"{convertedType} {paramName}");
                     }
                     file.WriteLine(");\n");
                 }

@@ -1,11 +1,11 @@
 using System;
 
-namespace Evergine.Bindings.MeshOptimizer
+namespace Evergine.Bindings.KTX
 {
 	/// <summary>
 	/// Accessors 
 	/// </summary>
-	public enum _khr_word_e
+	public enum khr_word_e
 	{
 		KHR_DF_WORD_VENDORID = 0,
 		KHR_DF_WORD_DESCRIPTORTYPE = 0,
@@ -31,7 +31,7 @@ namespace Evergine.Bindings.MeshOptimizer
 		KHR_DF_WORD_SAMPLEWORDS = 4,
 	}
 
-	public enum _khr_df_shift_e
+	public enum khr_df_shift_e
 	{
 		KHR_DF_SHIFT_VENDORID = 0,
 		KHR_DF_SHIFT_DESCRIPTORTYPE = 17,
@@ -55,7 +55,7 @@ namespace Evergine.Bindings.MeshOptimizer
 		KHR_DF_SHIFT_BYTESPLANE7 = 24,
 	}
 
-	public enum _khr_df_mask_e
+	public enum khr_df_mask_e
 	{
 		KHR_DF_MASK_VENDORID = 131071,
 		KHR_DF_MASK_DESCRIPTORTYPE = 32767,
@@ -82,7 +82,7 @@ namespace Evergine.Bindings.MeshOptimizer
 	/// <summary>
 	/// Offsets relative to the start of a sample 
 	/// </summary>
-	public enum _khr_df_sampleword_e
+	public enum khr_df_sampleword_e
 	{
 		KHR_DF_SAMPLEWORD_BITOFFSET = 0,
 		KHR_DF_SAMPLEWORD_BITLENGTH = 0,
@@ -97,7 +97,7 @@ namespace Evergine.Bindings.MeshOptimizer
 		KHR_DF_SAMPLEWORD_SAMPLEUPPER = 3,
 	}
 
-	public enum _khr_df_sampleshift_e
+	public enum khr_df_sampleshift_e
 	{
 		KHR_DF_SAMPLESHIFT_BITOFFSET = 0,
 		KHR_DF_SAMPLESHIFT_BITLENGTH = 16,
@@ -144,7 +144,7 @@ namespace Evergine.Bindings.MeshOptimizer
 		KHR_DF_SAMPLESHIFT_SAMPLEUPPER = 0,
 	}
 
-	public enum _khr_df_samplemask_e
+	public enum khr_df_samplemask_e
 	{
 		KHR_DF_SAMPLEMASK_BITOFFSET = 65535,
 		KHR_DF_SAMPLEMASK_BITLENGTH = 255,
@@ -200,7 +200,7 @@ namespace Evergine.Bindings.MeshOptimizer
 	/// <summary>
 	/// Vendor ids 
 	/// </summary>
-	public enum _khr_df_vendorid_e
+	public enum khr_df_vendorid_e
 	{
 
 		/// <summary>
@@ -217,7 +217,7 @@ namespace Evergine.Bindings.MeshOptimizer
 	/// <summary>
 	/// Descriptor types 
 	/// </summary>
-	public enum _khr_df_khr_descriptortype_e
+	public enum khr_df_khr_descriptortype_e
 	{
 
 		/// <summary>
@@ -254,7 +254,7 @@ namespace Evergine.Bindings.MeshOptimizer
 	/// <summary>
 	/// Descriptor block version 
 	/// </summary>
-	public enum _khr_df_versionnumber_e
+	public enum khr_df_versionnumber_e
 	{
 
 		/// <summary>
@@ -290,7 +290,7 @@ namespace Evergine.Bindings.MeshOptimizer
 	/// There is no requirement that a color format use all the
 	/// channel types that are defined in the color model. 
 	/// </summary>
-	public enum _khr_df_model_e
+	public enum khr_df_model_e
 	{
 
 		/// <summary>
@@ -528,7 +528,7 @@ namespace Evergine.Bindings.MeshOptimizer
 	/// <summary>
 	/// Definition of channel names for each color model 
 	/// </summary>
-	public enum _khr_df_model_channels_e
+	public enum khr_df_model_channels_e
 	{
 
 		/// <summary>
@@ -1416,7 +1416,7 @@ namespace Evergine.Bindings.MeshOptimizer
 	/// LAB and related absolute color models should use
 	/// KHR_DF_PRIMARIES_CIEXYZ. 
 	/// </summary>
-	public enum _khr_df_primaries_e
+	public enum khr_df_primaries_e
 	{
 
 		/// <summary>
@@ -1507,7 +1507,7 @@ namespace Evergine.Bindings.MeshOptimizer
 	/// represented by the value, a corresponding inverse transform
 	/// must be applied. 
 	/// </summary>
-	public enum _khr_df_transfer_e
+	public enum khr_df_transfer_e
 	{
 
 		/// <summary>
@@ -1731,13 +1731,13 @@ namespace Evergine.Bindings.MeshOptimizer
 		KHR_DF_TRANSFER_MAX = 255,
 	}
 
-	public enum _khr_df_flags_e
+	public enum khr_df_flags_e
 	{
 		KHR_DF_FLAG_ALPHA_STRAIGHT = 0,
 		KHR_DF_FLAG_ALPHA_PREMULTIPLIED = 1,
 	}
 
-	public enum _khr_df_sample_datatype_qualifiers_e
+	public enum khr_df_sample_datatype_qualifiers_e
 	{
 		KHR_DF_SAMPLE_DATATYPE_LINEAR = 16,
 		KHR_DF_SAMPLE_DATATYPE_EXPONENT = 32,
