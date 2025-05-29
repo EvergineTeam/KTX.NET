@@ -50,6 +50,7 @@ namespace KTXGen
 
             { "ktxHashListEntry", "ktxHashListEntry" },
             { "ktxHashList", "ktxHashList" },
+            { "ktxTexture_vtbl", "ktxTexture_vtbl" },
         };
 
         public static readonly HashSet<string> privateStructs = new HashSet<string>
