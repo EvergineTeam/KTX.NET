@@ -202,7 +202,10 @@ namespace KTXGen
 
             if (type is CppPointerType pointerType)
             {
-                return GetCsTypeName(pointerType);
+                string name = GetCsTypeName(pointerType);
+               if(isPointer)
+                    name += "*";
+                return name;
             }
 
             if (type is CppArrayType arrayType)

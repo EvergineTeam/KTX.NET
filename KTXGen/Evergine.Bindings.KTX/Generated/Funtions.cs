@@ -12,10 +12,10 @@ namespace Evergine.Bindings.KTX
 		public static extern ktx_error_code_e ktxLoadOpenGL(PFNGLGETPROCADDRESS pfnGLGetProcAddress);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture_CreateFromNamedFile(byte* filename, UInt32 createFlags, ktxTexture* newTex);
+		public static extern ktx_error_code_e ktxTexture_CreateFromNamedFile(byte* filename, UInt32 createFlags, ktxTexture** newTex);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture_CreateFromMemory(byte* bytes, UIntPtr size, UInt32 createFlags, ktxTexture* newTex);
+		public static extern ktx_error_code_e ktxTexture_CreateFromMemory(byte* bytes, UIntPtr size, UInt32 createFlags, ktxTexture** newTex);
 
 		/// <summary>
 		/// Returns a pointer to the image data of a ktxTexture object.
@@ -58,13 +58,13 @@ namespace Evergine.Bindings.KTX
 		/// Create a new ktxTexture1.
 		/// </summary>
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture1_Create(ktxTextureCreateInfo* createInfo, ktxTextureCreateStorageEnum storageAllocation, ktxTexture1* newTex);
+		public static extern ktx_error_code_e ktxTexture1_Create(ktxTextureCreateInfo* createInfo, ktxTextureCreateStorageEnum storageAllocation, ktxTexture1** newTex);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture1_CreateFromNamedFile(byte* filename, UInt32 createFlags, ktxTexture1* newTex);
+		public static extern ktx_error_code_e ktxTexture1_CreateFromNamedFile(byte* filename, UInt32 createFlags, ktxTexture1** newTex);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture1_CreateFromMemory(byte* bytes, UIntPtr size, UInt32 createFlags, ktxTexture1* newTex);
+		public static extern ktx_error_code_e ktxTexture1_CreateFromMemory(byte* bytes, UIntPtr size, UInt32 createFlags, ktxTexture1** newTex);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ktxTexture1_Destroy(ktxTexture1* This);
@@ -79,31 +79,31 @@ namespace Evergine.Bindings.KTX
 		public static extern ktx_error_code_e ktxTexture1_WriteToNamedFile(ktxTexture1* This, byte* dstname);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture1_WriteToMemory(ktxTexture1* This, byte* bytes, UIntPtr* size);
+		public static extern ktx_error_code_e ktxTexture1_WriteToMemory(ktxTexture1* This, byte** bytes, UIntPtr* size);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ktx_error_code_e ktxTexture1_WriteKTX2ToNamedFile(ktxTexture1* This, byte* dstname);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture1_WriteKTX2ToMemory(ktxTexture1* This, byte* bytes, UIntPtr* size);
+		public static extern ktx_error_code_e ktxTexture1_WriteKTX2ToMemory(ktxTexture1* This, byte** bytes, UIntPtr* size);
 
 		/// <summary>
 		/// Create a new ktxTexture2.
 		/// </summary>
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture2_Create(ktxTextureCreateInfo* createInfo, ktxTextureCreateStorageEnum storageAllocation, ktxTexture2* newTex);
+		public static extern ktx_error_code_e ktxTexture2_Create(ktxTextureCreateInfo* createInfo, ktxTextureCreateStorageEnum storageAllocation, ktxTexture2** newTex);
 
 		/// <summary>
 		/// Create a new ktxTexture2 as a copy of an existing texture.
 		/// </summary>
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture2_CreateCopy(ktxTexture2* orig, ktxTexture2* newTex);
+		public static extern ktx_error_code_e ktxTexture2_CreateCopy(ktxTexture2* orig, ktxTexture2** newTex);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture2_CreateFromNamedFile(byte* filename, UInt32 createFlags, ktxTexture2* newTex);
+		public static extern ktx_error_code_e ktxTexture2_CreateFromNamedFile(byte* filename, UInt32 createFlags, ktxTexture2** newTex);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture2_CreateFromMemory(byte* bytes, UIntPtr size, UInt32 createFlags, ktxTexture2* newTex);
+		public static extern ktx_error_code_e ktxTexture2_CreateFromMemory(byte* bytes, UIntPtr size, UInt32 createFlags, ktxTexture2** newTex);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ktxTexture2_Destroy(ktxTexture2* This);
@@ -175,7 +175,7 @@ namespace Evergine.Bindings.KTX
 		public static extern ktx_error_code_e ktxTexture2_WriteToNamedFile(ktxTexture2* This, byte* dstname);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxTexture2_WriteToMemory(ktxTexture2* This, byte* bytes, UIntPtr* size);
+		public static extern ktx_error_code_e ktxTexture2_WriteToMemory(ktxTexture2* This, byte** bytes, UIntPtr* size);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ktx_error_code_e ktxTexture2_CompressAstcEx(ktxTexture2* This, ktxAstcParams* @params);
@@ -211,10 +211,10 @@ namespace Evergine.Bindings.KTX
 		public static extern byte* ktxTranscodeFormatString(ktx_transcode_fmt_e format);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxHashList_Create(ktxHashList* ppHl);
+		public static extern ktx_error_code_e ktxHashList_Create(ktxHashList** ppHl);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxHashList_CreateCopy(ktxHashList* ppHl, ktxHashList orig);
+		public static extern ktx_error_code_e ktxHashList_CreateCopy(ktxHashList** ppHl, ktxHashList orig);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ktxHashList_Construct(ktxHashList* pHl);
@@ -250,13 +250,13 @@ namespace Evergine.Bindings.KTX
 		/// Looks up a key and returns the ktxHashListEntry.
 		/// </summary>
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxHashList_FindEntry(ktxHashList* pHead, byte* key, ktxHashListEntry* ppEntry);
+		public static extern ktx_error_code_e ktxHashList_FindEntry(ktxHashList* pHead, byte* key, ktxHashListEntry** ppEntry);
 
 		/// <summary>
 		/// Looks up a key and returns the value.
 		/// </summary>
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxHashList_FindValue(ktxHashList* pHead, byte* key, uint* pValueLen, void* pValue);
+		public static extern ktx_error_code_e ktxHashList_FindValue(ktxHashList* pHead, byte* key, uint* pValueLen, void** pValue);
 
 		/// <summary>
 		/// Return the next entry in a ktxHashList.
@@ -275,7 +275,7 @@ namespace Evergine.Bindings.KTX
 		/// writing to a KTX file.
 		/// </summary>
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxHashList_Serialize(ktxHashList* pHead, uint* kvdLen, byte* kvd);
+		public static extern ktx_error_code_e ktxHashList_Serialize(ktxHashList* pHead, uint* kvdLen, byte** kvd);
 
 		/// <summary>
 		/// Creates a hash table from the serialized data read from a
@@ -288,13 +288,13 @@ namespace Evergine.Bindings.KTX
 		/// Get the key from a ktxHashListEntry
 		/// </summary>
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxHashListEntry_GetKey(ktxHashListEntry* This, uint* pKeyLen, byte* ppKey);
+		public static extern ktx_error_code_e ktxHashListEntry_GetKey(ktxHashListEntry* This, uint* pKeyLen, byte** ppKey);
 
 		/// <summary>
 		/// Get the value from a ktxHashListEntry
 		/// </summary>
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
-		public static extern ktx_error_code_e ktxHashListEntry_GetValue(ktxHashListEntry* This, uint* pValueLen, void* ppValue);
+		public static extern ktx_error_code_e ktxHashListEntry_GetValue(ktxHashListEntry* This, uint* pValueLen, void** ppValue);
 
 		[DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
 		public static extern ktx_error_code_e ktxPrintInfoForNamedFile(byte* filename);

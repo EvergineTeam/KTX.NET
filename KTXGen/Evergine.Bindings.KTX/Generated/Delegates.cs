@@ -80,7 +80,7 @@ namespace Evergine.Bindings.KTX
 
 	public unsafe delegate ktx_error_code_e PFNKTEXWRITETOMEMORY(
 		 ktxTexture* This,
-		 byte* bytes,
+		 byte** bytes,
 		 UIntPtr* size);
 
 	/// <summary>
