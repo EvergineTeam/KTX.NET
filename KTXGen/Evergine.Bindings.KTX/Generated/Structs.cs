@@ -70,33 +70,6 @@ namespace Evergine.Bindings.KTX
 	/// @
 	/// ~English
 	/// 
-	/// </summary>
-	[StructLayout(LayoutKind.Sequential)]
-	public unsafe struct ktxTexture_vtbl
-	{
-		public  Destroy;
-		public  GetImageOffset;
-		public  GetDataSizeUncompressed;
-		public  GetImageSize;
-		public  GetLevelSize;
-		public  IterateLevels;
-		public  IterateLoadLevelFaces;
-		public  NeedsTranscoding;
-		public  LoadImageData;
-		public  SetImageFromMemory;
-		public  SetImageFromStdioStream;
-		public  WriteToStdioStream;
-		public  WriteToNamedFile;
-		public  WriteToMemory;
-		public  WriteToStream;
-	}
-
-	/// <summary>
-	/// 
-	/// 
-	/// @
-	/// ~English
-	/// 
 	/// ktxTextures should be created only by one of the ktxTexture_Create*
 	/// functions and these fields should be considered read-only.
 	/// </summary>

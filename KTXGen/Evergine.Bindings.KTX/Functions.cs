@@ -45,10 +45,5 @@ namespace Evergine.Bindings.KTX
         {
                 return texture->vtbl->WriteToMemory(texture, bytes, size);
         }
-
-
-
-
-
     }
 }

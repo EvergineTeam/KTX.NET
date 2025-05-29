@@ -191,7 +191,7 @@ namespace KTXGen
 
                 if (isPointer)
                 {
-                    if (privateStructs.Contains(className))
+                    if (privateStructs.Contains(className) && !csNameMappings.ContainsKey(className))
                     {
                         return "IntPtr";
                     }
