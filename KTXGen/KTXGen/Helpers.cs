@@ -57,7 +57,6 @@ namespace KTXGen
             "ktxTexture1_private",
             "ktxTexture2_private",
             "ktxTexture_vvtbl",
-            "ktxTexture_vtbl",
             "ktxTexture_protected",
         };
 
