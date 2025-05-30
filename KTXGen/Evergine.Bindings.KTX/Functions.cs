@@ -9,6 +9,9 @@ namespace Evergine.Bindings.KTX
 {
     public static unsafe partial class KTX
     {
+        [DllImport("ktx", CallingConvention = CallingConvention.Cdecl)]
+        public static extern UInt32 ktxTexture_GetVkFormat(ktxTexture* This);
+
         public static void ktxTexture_Destroy(ktxTexture* texture) => texture->vtbl->Destroy(texture);
 
         public static ktx_error_code_e ktxTexture_GetImageOffset(ktxTexture* texture, uint level, uint layer, uint faceOrSlice, out UIntPtr pOffset)
