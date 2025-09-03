@@ -17,6 +17,7 @@ def rel_path(path):
 
 codePath = rel_path("KTX-Software")
 runtimesRelPath = "KTXGen/Evergine.Bindings.KTX/runtimes"
+outputRelPath = runtimesRelPath
 
 # --- Windows ---
 def build_windows(arch):
@@ -40,7 +41,7 @@ def build_windows(arch):
     archStr = archTransltionStr[arch]
 
     srcPath = os.path.join(compilePath, "Release/ktx.dll")
-    dstPath = rel_path(f"{runtimesRelPath}/win-{archStr}/native/ktx.dll")
+    dstPath = rel_path(f"{outputRelPath}/win-{archStr}/native/ktx.dll")
     os.makedirs(os.path.dirname(dstPath), exist_ok=True)
     shutil.copy2(srcPath, dstPath)
 
@@ -65,7 +66,7 @@ def build_mac():
         return
     
     srcPath = os.path.join(compilePath, "Release/libktx.dylib")
-    dstPath = f"{runtimesRelPath}/osx-{arch}/native/ktx.dylib"
+    dstPath = f"{outputRelPath}/osx-{arch}/native/ktx.dylib"
     os.makedirs(os.path.dirname(dstPath), exist_ok=True)
     shutil.copy2(srcPath, dstPath)
 
@@ -102,7 +103,7 @@ def build_ios_arm64(ios_platform):
 
     # copy to OUT folder
     srcPath = os.path.join(compilePath, "libktx.a")
-    dstPath = rel_path(f"{runtimesRelPath}/{runtimesFolderName}/native/ktx.a")
+    dstPath = rel_path(f"{outputRelPath}/{runtimesFolderName}/native/ktx.a")
     os.makedirs(os.path.dirname(dstPath), exist_ok=True)
     shutil.copy2(srcPath, dstPath)
 
@@ -141,7 +142,7 @@ def build_wasm(EmscriptenSDKPath):
         return
     
     srcPath = abspath(os.path.join(compilePath, "libktx.a"))
-    dstPath = rel_path(f"{runtimesRelPath}/browser-wasm/native/ktx.a")
+    dstPath = rel_path(f"{outputRelPath}/browser-wasm/native/ktx.a")
     os.makedirs(os.path.dirname(dstPath), exist_ok=True)
     shutil.copy2(srcPath, dstPath)
 
@@ -187,7 +188,7 @@ def build_android(AndroidNDKPath, abi, abiFolder):
         return
     
     srcPath = abspath(os.path.join(compilePath, "libktx.so"))
-    dstPath = rel_path(f"{runtimesRelPath}/android-{abiFolder}/native/ktx.so")
+    dstPath = rel_path(f"{outputRelPath}/android-{abiFolder}/native/ktx.so")
     os.makedirs(os.path.dirname(dstPath), exist_ok=True)
     shutil.copy2(srcPath, dstPath)
 
@@ -221,7 +222,7 @@ def build_linux(arch):
     archStr = archTransltionStr[arch]
 
     srcPath = os.path.join(compilePath, "Release/libktx.so")
-    dstPath = rel_path(f"{runtimesRelPath}/linux-{archStr}/native/ktx.so")
+    dstPath = rel_path(f"{outputRelPath}/linux-{archStr}/native/ktx.so")
     os.makedirs(os.path.dirname(dstPath), exist_ok=True)
     shutil.copy2(srcPath, dstPath)
 
@@ -232,9 +233,11 @@ parser.add_argument("--emscripten_sdk", help = "Path to the Emscripten SDK insta
 parser.add_argument("--android_ndk", help = "Path to the Android NDK install dir")
 parser.add_argument("--ninja_path", help = "Path to the ninja executable")
 parser.add_argument("--ios", action="store_true", help = "Build for iOS arm64")
+parser.add_argument("--output_path", help = "Path to the output directory")
 args = parser.parse_args()
 
 ninjaExePath = args.ninja_path
+outputRelPath = args.output_path if args.output_path else outputRelPath
 
 if os.name == 'nt':
     if args.windows:
