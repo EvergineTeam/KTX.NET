@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-		<Content Include="buildTransitive\Evergine.Bindings.Imgui.targets" PackagePath="buildTransitive" Visible="true" />
+		<Content Include="buildTransitive\Evergine.Bindings.KTX.targets" PackagePath="buildTransitive" Visible="true" />
 		<Content Include="runtimes\**" PackagePath="runtimes" Visible="true" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
