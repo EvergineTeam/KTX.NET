@@ -15,7 +15,7 @@ jobs:
 
       - name: Install Dependencies
         shell: pwsh
-        run: python3 -u scripts/install_deps.py --all
+        run: python3 -u install_deps.py --all
 
       - name: Build project
         shell: pwsh
