@@ -64,7 +64,7 @@ def build_mac():
     if result.returncode != 0:
         return
     
-    srcPath = os.path.join(compilePath, "libktx.dylib")
+    srcPath = os.path.join(compilePath, "Release/libktx.dylib")
     dstPath = f"{runtimesRelPath}/osx-{arch}/native/ktx.dylib"
     os.makedirs(os.path.dirname(dstPath), exist_ok=True)
     shutil.copy2(srcPath, dstPath)
@@ -220,7 +220,7 @@ def build_linux(arch):
     
     archStr = archTransltionStr[arch]
 
-    srcPath = os.path.join(compilePath, "libktx.so")
+    srcPath = os.path.join(compilePath, "Release/libktx.so")
     dstPath = rel_path(f"{runtimesRelPath}/linux-{archStr}/native/ktx.so")
     os.makedirs(os.path.dirname(dstPath), exist_ok=True)
     shutil.copy2(srcPath, dstPath)
