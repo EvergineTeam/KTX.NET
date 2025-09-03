@@ -1,0 +1,71 @@
+name: Build
+
+on:
+  workflow_dispatch:  # Allow manual triggering of the workflow
+
+jobs:
+    
+  in-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive  # Ensure submodules are checked out
+
+      - name: Install Dependencies
+        shell: pwsh
+        run: python3 -u scripts/install_deps.py --all
+
+      - name: Build project
+        shell: pwsh
+        run: python3 -u build_native_libs.py --emscripten_sdk=tmp/emsdk --ninja_path=tmp/ninja.exe --android_ndk=tmp/android_sdk/ndk/26.3.11579264
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows_wasm_android
+          path: KTXGen/Evergine.Bindings.KTX/runtimes/*
+
+  in-mac-arm64:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive  # Ensure submodules are checked out
+
+      - name: Build project
+        shell: pwsh
+        run: python3 -u build_native_libs.py --ios
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mac_iosarm64
+          path: KTXGen/Evergine.Bindings.KTX/runtimes/*
+
+  in-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive  # Ensure submodules are checked out
+
+      - name: Setup Ninja
+        uses: ashutoshvarma/setup-ninja@v1.1
+
+      - name: Install Cross-Compilation Tools for ARM64
+        run: sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
+      - name: Build project
+        shell: bash
+        run: python3 -u build_native_libs.py
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: KTXGen/Evergine.Bindings.KTX/runtimes/*
+          if-no-files-found: warn # 'warn' or 'ignore' or 'error'
