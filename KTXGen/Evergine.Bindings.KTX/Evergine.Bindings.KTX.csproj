@@ -7,9 +7,9 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
-	<ItemGroup>
-		<Content Include="build\**" PackagePath="build" Visible="true" />
-		<Content Include="runtimes\**" PackagePath="runtimes" Visible="true" />
+  <ItemGroup>
+		<Content Include="buildTransitive\Evergine.Bindings.Imgui.targets" PackagePath="buildTransitive" Visible="true" />
+		<Content Include="runtimes\**" PackagePath="runtimes" Visible="true" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
   <ItemGroup>
