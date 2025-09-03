@@ -24,7 +24,7 @@ def download_and_extract(url, dst = "."):
 
 def tmp_path(path):
     """Return the path to the temporary directory."""
-    return abspath(os.path.join(os.path.dirname(__file__), f"../tmp/{path}"))
+    return abspath(os.path.join(os.path.dirname(__file__), f"tmp/{path}"))
 
 # --- Emscripten ---
 def install_deps_emscripten():
