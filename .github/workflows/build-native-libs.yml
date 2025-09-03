@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows_wasm_android
-          path: KTXGen/Evergine.Bindings.KTX/runtimes/*
+          path: tmp/runtimes/*
 
   in-mac-arm64:
     runs-on: macos-latest
@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mac_iosarm64
-          path: KTXGen/Evergine.Bindings.KTX/runtimes/*
+          path: tmp/runtimes/*
 
   in-linux:
     runs-on: ubuntu-latest
@@ -67,5 +67,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux
-          path: KTXGen/Evergine.Bindings.KTX/runtimes/*
+          path: tmp/runtimes/*
           if-no-files-found: warn # 'warn' or 'ignore' or 'error'
