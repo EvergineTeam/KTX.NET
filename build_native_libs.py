@@ -27,7 +27,8 @@ def build_windows(arch):
         "cmake",
         "-S", codePath,
         "-B", compilePath,
-        "-A", arch
+        "-A", arch,
+        "-DBUILD_TESTING=OFF",
     ]
     result = subprocess.run(cmake_cmd)
     if result.returncode != 0:
@@ -55,6 +56,7 @@ def build_mac():
         "-S", codePath,
         "-B", compilePath,
         "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
     ]
     result = subprocess.run(cmake_cmd)
     if result.returncode != 0:
@@ -91,6 +93,7 @@ def build_ios_arm64(ios_platform):
         f'-DCMAKE_TOOLCHAIN_FILE={rel_path("cmake/toolchains/ios.toolchain.cmake")}',
         f"-DPLATFORM={ios_platform}",
         "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
     ]
     print(cmake_cmd)
     result = subprocess.run(cmake_cmd)
@@ -128,6 +131,7 @@ def build_wasm(EmscriptenSDKPath):
         "-DCMAKE_BUILD_TYPE=Release",
         f"-DCMAKE_TOOLCHAIN_FILE={toolchainFile}",
         f"-DCMAKE_CROSSCOMPILING_EMULATOR={crosscompilingEmulator}",
+        "-DBUILD_TESTING=OFF",
     ]
     if ninjaExePath:
         ninjaExePath_absolute = abspath(ninjaExePath)
@@ -165,6 +169,7 @@ def build_android(AndroidNDKPath, abi, abiFolder):
         f"-DANDROID_ABI={abi}",
         "-DANDROID_PLATFORM=android-25",
         "-DANDROID_STL=c++_static",
+        "-DBUILD_TESTING=OFF",
     ]
     if ninjaExePath:
         ninjaExePath_absolute = abspath(ninjaExePath)
@@ -203,6 +208,7 @@ def build_linux(arch):
         "-B", compilePath,
         "-DCMAKE_BUILD_TYPE=Release",
         "-GNinja",
+        "-DBUILD_TESTING=OFF",
     ]
     if platform.machine() == "x86_64" and arch == "ARM64":
         cmake_cmd += [ # crosscompiling
@@ -229,7 +235,7 @@ def build_linux(arch):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="store_true")
-parser.add_argument("--windows", help = "")
+parser.add_argument("--windows", help = "Build for Windows", action="store_true")
 parser.add_argument("--emscripten_sdk", help = "Path to the Emscripten SDK install dir")
 parser.add_argument("--android_ndk", help = "Path to the Android NDK install dir")
 parser.add_argument("--ninja_path", help = "Path to the ninja executable")
