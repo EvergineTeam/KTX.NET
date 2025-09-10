@@ -92,6 +92,7 @@ def build_ios_arm64(ios_platform):
         f"-DPLATFORM={ios_platform}",
         "-DCMAKE_BUILD_TYPE=Release",
     ]
+    print(cmake_cmd)
     result = subprocess.run(cmake_cmd)
     if result.returncode != 0:
         return
