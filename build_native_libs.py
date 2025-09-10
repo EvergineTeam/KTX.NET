@@ -90,10 +90,20 @@ def build_ios_arm64(ios_platform):
         "-S", codePath,
         "-B", compilePath,
         "-G", "Xcode",
+        "-DCMAKE_SYSTEM_NAME=iOS",
+        "-DASTCENC_ISA_NEON=ON"
         f'-DCMAKE_TOOLCHAIN_FILE={rel_path("cmake/toolchains/ios.toolchain.cmake")}',
         f"-DPLATFORM={ios_platform}",
         "-DCMAKE_BUILD_TYPE=Release",
         "-DBUILD_TESTING=OFF",
+        "-DKTX_FEATURE_DOC=OFF",
+        "-DKTX_FEATURE_LOAD_TEST_APPS=OFF",
+        "-DKTX_FEATURE_PY=OFF",
+        "-DKTX_FEATURE_TESTS=OFF",
+        "-DKTX_FEATURE_TOOLS=OFF",
+        "-DKTX_FEATURE_TOOLS_CTS=OFF",
+        "-DKTX_FEATURE_VK_UPLOAD=OFF",
+        "-DKTX_GENERATE_VK_FILES=OFF",
     ]
     print(cmake_cmd)
     result = subprocess.run(cmake_cmd)
