@@ -78,6 +78,10 @@ def build_ios_arm64(ios_platform):
         "OS64" : "ios-arm64",
         "SIMULATORARM64": "iossimulator-arm64",
     }
+    build_output_folder = {
+        "OS64" : "Release-iphoneos",
+        "SIMULATORARM64": "Release-iphonesimulator",
+    }[ios_platform]
     if not ios_platform in ios_platforms.keys():
         print(f"Invalid iOS platform({ios_platform}). Valid values are {ios_platforms.keys()}")
         return
@@ -90,11 +94,12 @@ def build_ios_arm64(ios_platform):
         "-S", codePath,
         "-B", compilePath,
         "-G", "Xcode",
-        "-DCMAKE_SYSTEM_NAME=iOS",
-        "-DASTCENC_ISA_NEON=ON"
+        "-DASTCENC_ISA_NEON=ON",
         f'-DCMAKE_TOOLCHAIN_FILE={rel_path("cmake/toolchains/ios.toolchain.cmake")}',
         f"-DPLATFORM={ios_platform}",
         "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_SHARED_LIBS=OFF",
+
         "-DBUILD_TESTING=OFF",
         "-DKTX_FEATURE_DOC=OFF",
         "-DKTX_FEATURE_LOAD_TEST_APPS=OFF",
@@ -116,7 +121,7 @@ def build_ios_arm64(ios_platform):
         return
 
     # copy to OUT folder
-    srcPath = os.path.join(compilePath, "libktx.a")
+    srcPath = os.path.join(compilePath, build_output_folder, "libktx.a")
     dstPath = rel_path(f"{outputRelPath}/{runtimesFolderName}/native/ktx.a")
     os.makedirs(os.path.dirname(dstPath), exist_ok=True)
     shutil.copy2(srcPath, dstPath)
