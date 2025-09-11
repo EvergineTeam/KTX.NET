@@ -6,13 +6,9 @@ namespace Evergine.Bindings.KTX
 	public static unsafe partial class KTX
 	{
 #if __IOS__
-
 		private const string LibName = "__Internal";
-
 #else
-
 		private const string LibName = "ktx";
-
 #endif
 
 		/// <summary>

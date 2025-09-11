@@ -216,10 +216,10 @@ namespace KTXGen
                 file.WriteLine($"\tpublic static unsafe partial class KTX");
                 file.WriteLine("\t{");
 
-                file.WriteLine("#if __IOS__\n");
-                file.WriteLine("\t\tprivate const string LibName = \"__Internal\";\n");
-                file.WriteLine("#else\n");
-                file.WriteLine("\t\tprivate const string LibName = \"ktx\";\n");
+                file.WriteLine("#if __IOS__");
+                file.WriteLine("\t\tprivate const string LibName = \"__Internal\";");
+                file.WriteLine("#else");
+                file.WriteLine("\t\tprivate const string LibName = \"ktx\";");
                 file.WriteLine("#endif\n");
 
                 foreach (var cppFunction in compilation.Functions)
