@@ -35,7 +35,7 @@ namespace KTXGen
             GenerateEnums(compilation, outputPath);
             GenerateStructs(compilation, outputPath);
             GenerateDelegates(compilation, outputPath);
-            GenerateFuntions(compilation, outputPath);
+            GenerateFunctions(compilation, outputPath);
         }
 
         private void GenerateConstants(CppCompilation compilation, string outputPath)
@@ -203,11 +203,11 @@ namespace KTXGen
             }
         }
 
-        private void GenerateFuntions(CppCompilation compilation, string outputPath)
+        private void GenerateFunctions(CppCompilation compilation, string outputPath)
         {
             Debug.WriteLine("Generating Functions...");
 
-            using (StreamWriter file = File.CreateText(Path.Combine(outputPath, "Funtions.cs")))
+            using (StreamWriter file = File.CreateText(Path.Combine(outputPath, "Functions.cs")))
             {
                 file.WriteLine("using System;");
                 file.WriteLine("using System.Runtime.InteropServices;\n");
@@ -216,6 +216,12 @@ namespace KTXGen
                 file.WriteLine($"\tpublic static unsafe partial class KTX");
                 file.WriteLine("\t{");
 
+                file.WriteLine("#if __IOS__\n");
+                file.WriteLine("\t\tprivate const string LibName = \"__Internal\";\n");
+                file.WriteLine("#else\n");
+                file.WriteLine("\t\tprivate const string LibName = \"ktx\";\n");
+                file.WriteLine("#endif\n");
+
                 foreach (var cppFunction in compilation.Functions)
                 {
                     if ((cppFunction.Flags & CppFunctionFlags.FunctionTemplate) != CppFunctionFlags.None) continue;
@@ -223,7 +229,7 @@ namespace KTXGen
                     if (Helpers.FunctionUsesBlacklistedType(cppFunction)) continue;
 
                     Helpers.PrintComments(file, cppFunction.Comment, "\t\t");
-                    file.WriteLine($"\t\t[DllImport(\"ktx\", CallingConvention = CallingConvention.Cdecl)]");
+                    file.WriteLine($"\t\t[DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]");
                     string returnType = Helpers.ConvertToCSharpType(cppFunction.ReturnType);
                     returnType = Helpers.ShowAsMarshalType(returnType, Helpers.Family.ret);
                     file.Write($"\t\tpublic static extern {returnType} {cppFunction.Name}(");
