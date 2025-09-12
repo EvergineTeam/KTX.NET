@@ -1,7 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net8.0-ios</TargetFrameworks>
+	<TargetFrameworks>net8.0;net8.0-ios</TargetFrameworks>
+    <Description>KTX Bindings for .NET</Description>
+	<PackageTags>Evergine;C#;image;KTX</PackageTags>
+	<PackageIcon>icon.png</PackageIcon>
+	<RepositoryUrl>https://github.com/EvergineTeam/KTX.Net</RepositoryUrl>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
@@ -14,6 +18,13 @@
 
   <ItemGroup>
     <Folder Include="Generated\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Resources\NugetIcon\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
