@@ -38,7 +38,7 @@ def install_deps_emscripten():
     # Run Emscripten commands
     emsdk_bat = tmp_path("emsdk/emsdk.bat")
     os.system(f"{emsdk_bat} update")
-    emsdk_version = "3.1.34"
+    emsdk_version = "3.1.64"
     os.system(f"{emsdk_bat} install {emsdk_version}")
     os.system(f"{emsdk_bat} activate {emsdk_version}")
 
