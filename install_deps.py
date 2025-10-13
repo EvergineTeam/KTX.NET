@@ -82,7 +82,7 @@ def install_deps_android_ndk():
             print(f"Error flushing stdin: {e}")
         out, err = process.communicate()
 
-    process = subprocess.Popen([sdkmanager_path, "--install", f"--sdk_root={sdk_path}", "ndk;26.3.11579264"],
+    process = subprocess.Popen([sdkmanager_path, "--install", f"--sdk_root={sdk_path}", "ndk;28.2.13676358"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE)
     out, err = process.communicate()
