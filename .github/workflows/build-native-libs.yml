@@ -19,7 +19,7 @@ jobs:
 
       - name: Build project
         shell: pwsh
-        run: python3 -u build_native_libs.py --output_path tmp/runtimes --windows --emscripten_sdk=tmp/emsdk --ninja_path=tmp/ninja.exe --android_ndk=tmp/android_sdk/ndk/26.3.11579264
+        run: python3 -u build_native_libs.py --output_path tmp/runtimes --windows --emscripten_sdk=tmp/emsdk --ninja_path=tmp/ninja.exe --android_ndk=tmp/android_sdk/ndk/28.2.13676358
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
