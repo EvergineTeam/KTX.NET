@@ -182,7 +182,7 @@ def build_android(AndroidNDKPath, abi, abiFolder):
         "-DCMAKE_CXX_FLAGS_RELEASE=-O3",
         "-DANDROID_TOOLCHAIN=clang",
         f"-DANDROID_ABI={abi}",
-        "-DANDROID_PLATFORM=android-25",
+        "-DANDROID_PLATFORM=android-28",
         "-DANDROID_STL=c++_static",
         "-DBUILD_TESTING=OFF",
     ]
