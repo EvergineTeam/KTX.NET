@@ -8,11 +8,11 @@ This bindings have been autogenrated from the [official KTX C header](https://gi
 
 ## Supported platforms
 - [x] Windows
-- [ ] Linux
-- [ ] MacOS
+- [x] Linux
+- [x] MacOS
 - [x] Wasm
 - [x] Android
-- [ ] iOS
+- [x] iOS
 
 ## Build instructions
 
