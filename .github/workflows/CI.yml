@@ -1,0 +1,32 @@
+# Binding CI - Simple Template
+
+# This template is for .NET bindings.
+# Copy this file to your repository as `.github/workflows/CI.yml` and customize the inputs below.
+
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  ci:
+    uses: EvergineTeam/evergine-standards/.github/workflows/binding-common-ci.yml@main
+    with:
+      generator-project: "KTXGen/KTXGen/KTXGen.csproj"  # Path to your generator .csproj
+      generator-name: "KTX"                # Name of your generator executable
+      binding-project: "KTXGen/Evergine.Bindings.KTX/Evergine.Bindings.KTX.csproj" # Path to your binding .csproj
+      target-framework: "net8.0"                   # Target framework for generator/binding
+      runtime-identifier: "win-x64"                # Runtime identifier (win-x64, linux-x64, etc.)
+      build-configuration: "Release"               # Build configuration (Release, Debug, etc.)
+      nuget-artifacts: false                       # Upload NuGets as workflow artifacts
+      revision: ${{ github.run_number }}           # Revision for date-based version (bindings style). Use with bindings.
+
+# Tips:
+# - For direct version (add-ons style):
+#   version: "3.4.22.288-local"
+# - For date-based version (bindings style):
+#   revision: ""  # Uses github.run_number or custom logic
