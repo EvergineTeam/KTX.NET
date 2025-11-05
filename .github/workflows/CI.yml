@@ -29,6 +29,7 @@ jobs:
       runtime-identifier: "linux-x64"              # Runtime identifier (win-x64, linux-x64, etc.)
       version-suffix: "rolling"                    # Add preview suffix to packages
       build-configuration: "Release"               # Build configuration (Release, Debug, etc.)
+      restore-workloads: true                     # Restore .NET workloads
       nuget-artifacts: ${{ inputs.publish-artifacts || false }}  # Upload NuGets as workflow artifacts
       revision: ${{ github.run_number }}           # Revision for date-based version (bindings style). Use with bindings.
 
