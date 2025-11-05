@@ -32,6 +32,7 @@ jobs:
       restore-workloads: true                     # Restore .NET workloads
       nuget-artifacts: ${{ inputs.publish-artifacts || false }}  # Upload NuGets as workflow artifacts
       revision: ${{ github.run_number }}           # Revision for date-based version (bindings style). Use with bindings.
+      runner-os: windows-latest                # Runner OS (windows-latest, ubuntu-latest, etc.)
 
 # Tips:
 # - For direct version (add-ons style):
