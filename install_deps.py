@@ -30,7 +30,7 @@ def tmp_path(path):
 # --- Emscripten ---
 def install_deps_emscripten():
     print("Installing Emscripten...\n")
-    emsdk_url = "https://github.com/emscripten-core/emsdk/archive/main.zip"
+    emsdk_url = "https://github.com/emscripten-core/emsdk/archive/master.zip"
     download_and_extract(emsdk_url, ".")
     os.rename(
         tmp_path("emsdk-master"),
