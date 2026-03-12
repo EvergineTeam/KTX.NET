@@ -310,7 +310,7 @@ namespace Evergine.Bindings.KTX
 
 		/// <summary>
 		/// ===========================================================*
-		/// Utilities for printing info about a KTX2 file.            *
+		/// Utilities for printing info about a KTX v2 file.          *
 		/// ===========================================================
 		/// </summary>
 		[DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
