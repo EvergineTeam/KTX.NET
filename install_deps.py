@@ -18,9 +18,10 @@ import requests # we need requests in order to download emsdk and ninja
 original_dir = os.getcwd()
 
 def download_and_extract(url, dst = "."):
-    with requests.get(url, stream=True) as r:
-        with ZipFile(io.BytesIO(r.raw.read()), "r") as zip_ref:
-            zip_ref.extractall(dst)
+    r = requests.get(url)
+    r.raise_for_status()
+    with ZipFile(io.BytesIO(r.content), "r") as zip_ref:
+        zip_ref.extractall(dst)
 
 def tmp_path(path):
     """Return the path to the temporary directory."""
@@ -29,7 +30,7 @@ def tmp_path(path):
 # --- Emscripten ---
 def install_deps_emscripten():
     print("Installing Emscripten...\n")
-    emsdk_url = "https://github.com/emscripten-core/emsdk/archive/master.zip"
+    emsdk_url = "https://github.com/emscripten-core/emsdk/archive/main.zip"
     download_and_extract(emsdk_url, ".")
     os.rename(
         tmp_path("emsdk-master"),
