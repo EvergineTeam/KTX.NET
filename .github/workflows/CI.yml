@@ -25,7 +25,7 @@ jobs:
       generator-project: "KTXGen/KTXGen/KTXGen.csproj"  # Path to your generator .csproj
       generator-name: "KTX"                # Name of your generator executable
       binding-project: "KTXGen/Evergine.Bindings.KTX/Evergine.Bindings.KTX.csproj" # Path to your binding .csproj
-      target-framework: "net8.0"                   # Target framework for generator/binding
+      target-framework: "net10.0"                   # Target framework for generator/binding
       runtime-identifier: "win-x64"              # Runtime identifier (win-x64, linux-x64, etc.)
       version-suffix: "rolling"                    # Add preview suffix to packages
       build-configuration: "Release"               # Build configuration (Release, Debug, etc.)
