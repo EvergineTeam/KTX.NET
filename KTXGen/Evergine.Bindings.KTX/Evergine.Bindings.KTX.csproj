@@ -12,8 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-		<Content Include="buildTransitive\Evergine.Bindings.KTX.targets" PackagePath="buildTransitive" Visible="true" />
-		<Content Include="runtimes\**" PackagePath="runtimes" Visible="true" />
+		<None Include="buildTransitive\Evergine.Bindings.KTX.targets" Pack="True" PackagePath="buildTransitive" Visible="true" />
+		<None Include="runtimes\**" Exclude="runtimes\ios-arm64\**;runtimes\iossimulator-arm64\**" Pack="True" PackagePath="runtimes" Visible="true" />
+		<None Include="runtimes\ios-arm64\native\ktx.a" Pack="True" PackagePath="buildTransitive\native\ios-arm64" Visible="true" />
+		<None Include="runtimes\iossimulator-arm64\native\ktx.a" Pack="True" PackagePath="buildTransitive\native\iossimulator-arm64" Visible="true" />
 	</ItemGroup>
 
   <ItemGroup>

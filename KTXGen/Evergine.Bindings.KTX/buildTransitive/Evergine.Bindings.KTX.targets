@@ -7,4 +7,20 @@
 	    <NativeFileReference Include="$(MSBuildThisFileDirectory)..\runtimes\browser-wasm\native\ktx.a" ScanForPInvokes="true" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetPlatformIdentifier)' == 'ios' And '$(RuntimeIdentifier)' != 'iossimulator-arm64'">
+	    <NativeReference Include="$(MSBuildThisFileDirectory)native\ios-arm64\ktx.a">
+		  <Kind>Static</Kind>
+		  <IsCxx>True</IsCxx>
+		  <ForceLoad>True</ForceLoad>
+	    </NativeReference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetPlatformIdentifier)' == 'ios' And '$(RuntimeIdentifier)' == 'iossimulator-arm64'">
+	    <NativeReference Include="$(MSBuildThisFileDirectory)native\iossimulator-arm64\ktx.a">
+		  <Kind>Static</Kind>
+		  <IsCxx>True</IsCxx>
+		  <ForceLoad>True</ForceLoad>
+	    </NativeReference>
+	</ItemGroup>
+
 </Project>
