@@ -35,35 +35,39 @@ namespace Evergine.Bindings.KTX
 
         public static void ktxTexture_Destroy(ktxTexture* texture)
         {
-            var f = Marshal.GetDelegateForFunctionPointer<PFNKTEXDESTROY>(texture->vtbl->Destroy);
-            f(texture);
+            if (texture->classId == class_id.ktxTexture1_c)
+                ktxTexture1_Destroy((ktxTexture1*)texture);
+            else
+                ktxTexture2_Destroy((ktxTexture2*)texture);
         }
 
         public static ktx_error_code_e ktxTexture_GetImageOffset(ktxTexture* texture, uint level, uint layer, uint faceOrSlice, out UIntPtr pOffset)
         {
             fixed (UIntPtr* pOffsetPtr = &pOffset)
             {
-                var f = Marshal.GetDelegateForFunctionPointer<PFNKTEXGETIMAGEOFFSET>(texture->vtbl->GetImageOffset);
-                return f(texture, level, layer, faceOrSlice, pOffsetPtr);
+                if (texture->classId == class_id.ktxTexture1_c)
+                    return ktxTexture1_GetImageOffset((ktxTexture1*)texture, level, layer, faceOrSlice, (nuint*)pOffsetPtr);
+                else
+                    return ktxTexture2_GetImageOffset((ktxTexture2*)texture, level, layer, faceOrSlice, (nuint*)pOffsetPtr);
             }
         }
 
         public static UIntPtr ktxTexture_GetDataSizeUncompressed(ktxTexture* texture)
         {
-            var f = Marshal.GetDelegateForFunctionPointer<PFNKTEXGETDATASIZEUNCOMPRESSED>(texture->vtbl->GetDataSizeUncompressed);
-            return f(texture);
+            if (texture->classId == class_id.ktxTexture1_c)
+                return ktxTexture1_GetDataSizeUncompressed((ktxTexture1*)texture);
+            else
+                return ktxTexture2_GetDataSizeUncompressed((ktxTexture2*)texture);
         }
 
         public static UIntPtr ktxTexture_GetImageSize(ktxTexture* texture, uint level)
         {
-            var f = Marshal.GetDelegateForFunctionPointer<PFNKTEXGETIMAGESIZE>(texture->vtbl->GetImageSize);
-            return f(texture, level);
+            if (texture->classId == class_id.ktxTexture1_c)
+                return ktxTexture1_GetImageSize((ktxTexture1*)texture, level);
+            else
+                return ktxTexture2_GetImageSize((ktxTexture2*)texture, level);
         }
-        public static UIntPtr ktxTexture_GetLevelSize(ktxTexture* texture, uint level)
-        {
-            var f = Marshal.GetDelegateForFunctionPointer<PFNKTEXGETLEVELSIZE>(texture->vtbl->GetLevelSize);
-            return f(texture, level);
-        }
+        public static UIntPtr ktxTexture_GetLevelSize(ktxTexture* texture, uint level) => ktxTexture_GetImageSize(texture, level);
 
         public static ktx_error_code_e ktxTexture_IterateLevels(ktxTexture* texture, PFNKTXITERCB callback, void* userData)
         {
@@ -79,14 +83,18 @@ namespace Evergine.Bindings.KTX
 
         public static bool ktxTexture_NeedsTranscoding(ktxTexture* texture)
         {
-            var f = Marshal.GetDelegateForFunctionPointer<PFNKTEXNEEDSTRANSCODING>(texture->vtbl->NeedsTranscoding);
-            return f(texture) != 0;
+            if (texture->classId == class_id.ktxTexture1_c)
+                return ktxTexture1_NeedsTranscoding((ktxTexture1*)texture) != 0;
+            else
+                return ktxTexture2_NeedsTranscoding((ktxTexture2*)texture) != 0;
         }
 
         public static ktx_error_code_e ktxTexture_LoadImageData(ktxTexture* texture, byte* buffer, UIntPtr bufferSize)
         {
-            var f = Marshal.GetDelegateForFunctionPointer<PFNKTEXLOADIMAGEDATA>(texture->vtbl->LoadImageData);
-            return f(texture, buffer, bufferSize);
+            if (texture->classId == class_id.ktxTexture1_c)
+                return ktxTexture1_LoadImageData((ktxTexture1*)texture, buffer, bufferSize);
+            else
+                return ktxTexture2_LoadImageData((ktxTexture2*)texture, buffer, bufferSize);
         }
 
         public static ktx_error_code_e ktxTexture_SetImageFromMemory(ktxTexture* texture, uint level, uint layer, uint faceOrSlice, byte* buffer, UIntPtr bufferSize)
@@ -698,5 +706,23 @@ namespace Evergine.Bindings.KTX
 
             return VkFormat.UNDEFINED;
         }
+
+        // ---------------------------------------------------------------------------------------------------------------------------------
+        // These functions are not exposed in the .h, so we have to add them here explicitly
+        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ktx_error_code_e ktxTexture1_GetImageOffset(ktxTexture1* This, uint level, uint layer, uint faceOrSlice, nuint* pOffset);
+
+        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern nuint ktxTexture1_GetDataSizeUncompressed(ktxTexture1* This);
+
+        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern nuint ktxTexture2_GetDataSizeUncompressed(ktxTexture2* This);
+
+        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern nuint ktxTexture1_GetImageSize(ktxTexture1* This, uint level);
+
+        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern nuint ktxTexture2_GetImageSize(ktxTexture2* This, uint level);
+
     }
 }
