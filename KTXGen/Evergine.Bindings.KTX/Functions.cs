@@ -706,23 +706,5 @@ namespace Evergine.Bindings.KTX
 
             return VkFormat.UNDEFINED;
         }
-
-        // ---------------------------------------------------------------------------------------------------------------------------------
-        // These functions are not exposed in the .h, so we have to add them here explicitly
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern ktx_error_code_e ktxTexture1_GetImageOffset(ktxTexture1* This, uint level, uint layer, uint faceOrSlice, nuint* pOffset);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern nuint ktxTexture1_GetDataSizeUncompressed(ktxTexture1* This);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern nuint ktxTexture2_GetDataSizeUncompressed(ktxTexture2* This);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern nuint ktxTexture1_GetImageSize(ktxTexture1* This, uint level);
-
-        [DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern nuint ktxTexture2_GetImageSize(ktxTexture2* This, uint level);
-
     }
 }

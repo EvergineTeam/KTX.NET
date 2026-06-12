@@ -76,7 +76,16 @@ namespace Evergine.Bindings.KTX
 		public static extern void ktxTexture1_Destroy(ktxTexture1* This);
 
 		[DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern ktx_error_code_e ktxTexture1_GetImageOffset(ktxTexture1* This, UInt32 level, UInt32 layer, UInt32 faceSlice, UIntPtr* pOffset);
+
+		[DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern byte ktxTexture1_NeedsTranscoding(ktxTexture1* This);
+
+		[DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern UIntPtr ktxTexture1_GetDataSizeUncompressed(ktxTexture1* This);
+
+		[DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern UIntPtr ktxTexture1_GetImageSize(ktxTexture1* This, UInt32 level);
 
 		[DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ktx_error_code_e ktxTexture1_LoadImageData(ktxTexture1* This, byte* pBuffer, UIntPtr bufSize);
@@ -155,6 +164,12 @@ namespace Evergine.Bindings.KTX
 
 		[DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern byte ktxTexture2_NeedsTranscoding(ktxTexture2* This);
+
+		[DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern UIntPtr ktxTexture2_GetDataSizeUncompressed(ktxTexture2* This);
+
+		[DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern UIntPtr ktxTexture2_GetImageSize(ktxTexture2* This, UInt32 level);
 
 		[DllImport(LibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ktx_error_code_e ktxTexture2_SetTransferFunction(ktxTexture2* This, khr_df_transfer_e tf);
