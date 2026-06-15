@@ -19,19 +19,40 @@ original_dir = os.getcwd()
 
 def download_and_extract(url, dst = "."):
     with requests.get(url, stream=True) as r:
-        with ZipFile(io.BytesIO(r.raw.read()), "r") as zip_ref:
-            zip_ref.extractall(dst)
+        r.raise_for_status()
+        data = io.BytesIO(r.content)
+    with ZipFile(data, "r") as zip_ref:
+        zip_ref.extractall(dst)
 
 def tmp_path(path):
     """Return the path to the temporary directory."""
     return abspath(os.path.join(os.path.dirname(__file__), f"tmp/{path}"))
 
+def safe_rename(src, dst, attempts=10, delay=1.0):
+    """Rename src to dst, retrying on transient Windows locks.
+
+    Freshly extracted files are often briefly locked by antivirus or the
+    Windows Search Indexer, which makes os.rename fail intermittently with
+    PermissionError (WinError 5). Retry with a short backoff to ride it out.
+    """
+    for i in range(attempts):
+        try:
+            os.rename(src, dst)
+            return
+        except PermissionError:
+            if i == attempts - 1:
+                raise
+            time.sleep(delay)
+
 # --- Emscripten ---
 def install_deps_emscripten():
+    if os.path.isdir(tmp_path("emsdk")):
+        print("Emscripten already installed")
+        return
     print("Installing Emscripten...\n")
     emsdk_url = "https://github.com/emscripten-core/emsdk/archive/master.zip"
     download_and_extract(emsdk_url, ".")
-    os.rename(
+    safe_rename(
         tmp_path("emsdk-master"),
         tmp_path("emsdk"))
 
@@ -54,8 +75,9 @@ def install_deps_android_ndk():
 
     if True or not "JAVA_HOME" in os.environ:
         java_path = tmp_path("openjdk")
+        java_bin_path = tmp_path("openjdk/bin")
         os.environ["JAVA_HOME"] = java_path
-        os.environ["PATH"] = f"{java_path};{os.environ['PATH']}"
+        os.environ["PATH"] = f"{java_bin_path};{os.environ['PATH']}"
         subprocess.Popen(["java.exe", "-version"],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
@@ -64,7 +86,7 @@ def install_deps_android_ndk():
     shutil.rmtree(tmp_path("android-tools"), ignore_errors=True)
     url = "https://dl.google.com/android/repository/commandlinetools-win-13114758_latest.zip"
     download_and_extract(url, tmp_path(""))
-    os.rename(tmp_path("cmdline-tools"), tmp_path("android-tools"))
+    safe_rename(tmp_path("cmdline-tools"), tmp_path("android-tools"))
 
     sdkmanager_path = tmp_path("android-tools/bin/sdkmanager.bat")
 
@@ -99,7 +121,7 @@ def install_deps_java():
     
     url = "https://builds.openlogic.com/downloadJDK/openlogic-openjdk/21.0.6+7/openlogic-openjdk-21.0.6+7-windows-x64.zip"
     download_and_extract(url, tmp_path(""))
-    os.rename(long_path, short_path)
+    safe_rename(long_path, short_path)
     
 # --- Install dependencies ---
 def install_deps(emscripten, ninja, android_ndk, java):
