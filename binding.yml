@@ -1,0 +1,37 @@
+# Binding manifest — see https://github.com/EvergineTeam/Evergine.Bindings
+# Schema: https://github.com/EvergineTeam/Evergine.Bindings/blob/main/binding.schema.json
+toolbox: 1.0.0
+
+package:
+  id: Evergine.Bindings.KTX
+  project: KTXGen/Evergine.Bindings.KTX/Evergine.Bindings.KTX.csproj
+  target-framework: net10.0
+  runtime-identifier: win-x64
+
+upstream:
+  kind: git-submodule
+  language: c
+  project: https://github.com/KhronosGroup/KTX-Software
+  version-from: git-release
+  sources:
+    - repo: KhronosGroup/KTX-Software
+      path: KTX-Software          # submodule mount point; header is lib/include/ktx.h
+      format: c-header
+
+generator:
+  project: KTXGen/KTXGen/KTXGen.csproj
+  name: KTX
+  output:
+    - KTXGen/Evergine.Bindings.KTX/Generated
+
+# NOTE — this is the tightest coupling in the fleet between the header and a binary.
+#
+# The repository builds the native libraries from the submodule itself: build_native_libs.py,
+# install_deps.py, cmake/ and a dedicated "Build native libs" workflow, shipping the result
+# under Evergine.Bindings.KTX/runtimes. Moving the submodule pointer without rebuilding and
+# republishing those natives produces a managed layer that does not match the loaded binary
+# -- memory corruption at runtime, not a build error.
+#
+# So: binding-updater may report that a newer KTX-Software release exists, but a pointer
+# bump is always a separate pull request labelled needs-human-review, and it is not
+# proposable until the native build is green.
